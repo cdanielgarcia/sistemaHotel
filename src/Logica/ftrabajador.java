@@ -5,6 +5,7 @@ import Datos.vtrabajador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -62,7 +63,7 @@ public class ftrabajador {
             }
             return modelo;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showInputDialog(null, e);
             return null;
         }
@@ -192,9 +193,48 @@ public class ftrabajador {
                 return false;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showInputDialog(null, e);
             return false;
+        }
+    }
+    
+    public DefaultTableModel login(String login, String password) {
+        DefaultTableModel modelo;
+        String[] titulos = {"Id", "Nombre", "Apaterno", "Amaterno", "Acceso", "Login", "Clave", "Estado"};
+        String[] registros = new String[8];
+        totalregistros = 0;
+        modelo = new DefaultTableModel(null, titulos);
+        sSQL = "select p.idpersona,p.nombre,p.apaterno,p.amaterno,t.acceso,t.login,t.password,t.estado"
+                + " from persona p inner join trabajador t "
+                + "on p.idpersona=t.idpersona where t.login='"
+                + login + "' and t.password='" + password + "' and t.estado='A'";
+
+        try {
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sSQL);
+
+            while (rs.next()) {
+
+                registros[0] = rs.getString("idpersona");
+                registros[1] = rs.getString("nombre");
+                registros[2] = rs.getString("apaterno");
+                registros[3] = rs.getString("amaterno");
+                registros[4] = rs.getString("acceso");
+                registros[5] = rs.getString("login");
+                registros[6] = rs.getString("password");
+                registros[7] = rs.getString("estado");
+
+                totalregistros = totalregistros + 1;
+                modelo.addRow(registros);
+
+            }
+            return modelo;
+
+        } catch (Exception e) {
+            JOptionPane.showInputDialog(null, e);
+            return null;
         }
     }
     
