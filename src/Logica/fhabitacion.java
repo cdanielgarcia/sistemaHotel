@@ -111,7 +111,7 @@ public class fhabitacion {
 
     }
 
-    public vhabitacion getHabitationMoreCost() {
+    /*public vhabitacion getHabitationMoreCost() {
         vhabitacion objetoBaseDeDatos = null;
         String query = "SELECT * FROM habitacion;"; 
         List<vhabitacion> lista = new ArrayList<vhabitacion>();
@@ -141,7 +141,7 @@ public class fhabitacion {
                 .max(Comparator.comparingDouble(vhabitacion::getPrecio_diario))
                 .orElse(null);
 
-    }
+    }*/
 
     public boolean eliminar(vhabitacion datos) {
 
