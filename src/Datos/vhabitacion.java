@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Datos;
 
 /**
@@ -96,6 +91,10 @@ public class vhabitacion {
     public void setTipo_habitacion(String tipo_habitacion) {
         this.tipo_habitacion = tipo_habitacion;
     }
-    
+
+    @Override
+    public String toString() {
+        return "vhabitacion{" + "idhabitacion=" + idhabitacion + ", numero=" + numero + ", piso=" + piso + ", descripcion=" + descripcion + ", caracteristicas=" + caracteristicas + ", precio_diario=" + precio_diario + ", estado=" + estado + ", tipo_habitacion=" + tipo_habitacion + '}';
+    }
     
 }

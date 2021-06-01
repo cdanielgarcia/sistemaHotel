@@ -4,7 +4,11 @@ import Datos.vhabitacion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -14,8 +18,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class fhabitacion {
 
-    private Conexion mysql = new Conexion();
-    private Connection con = mysql.conectar();
+    private final Conexion mysql = new Conexion();
+    private final Connection con = mysql.conectar();
     private String sSQL = "";
     public Integer totalregistros;
 
@@ -26,8 +30,6 @@ public class fhabitacion {
         totalregistros = 0;
         modelo = new DefaultTableModel(null, titulos);
         sSQL = "select * from habitacion where piso like '%" + buscar + "%' order by idhabitacion";
-
-
 
         try {
 
@@ -51,7 +53,7 @@ public class fhabitacion {
             }
             return modelo;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showInputDialog(null, e);
             return null;
         }
@@ -74,13 +76,9 @@ public class fhabitacion {
 
             int n = ps.executeUpdate();
 
-            if (n != 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return n != 0;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showInputDialog(null, e);
             return false;
         }
@@ -105,15 +103,43 @@ public class fhabitacion {
 
             int n = ps.executeUpdate();
 
-            if (n != 0) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
+            return n != 0;
+        } catch (SQLException e) {
             JOptionPane.showInputDialog(null, e);
             return false;
         }
+
+    }
+
+    public vhabitacion getHabitationMoreCost() {
+        vhabitacion objetoBaseDeDatos = null;
+        String query = "SELECT * FROM habitacion;"; 
+        List<vhabitacion> lista = new ArrayList<vhabitacion>();
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                //por cada resultado de la base de datos, hacemos una instancia nueva del objeto
+                objetoBaseDeDatos = new vhabitacion();
+
+                objetoBaseDeDatos.setIdhabitacion(resultSet.getInt("idhabitacion"));
+                objetoBaseDeDatos.setNumero(resultSet.getString("numero"));
+                objetoBaseDeDatos.setPiso(resultSet.getString("piso"));
+                objetoBaseDeDatos.setDescripcion(resultSet.getString("descripcion"));
+                objetoBaseDeDatos.setCaracteristicas(resultSet.getString("caracteristicas"));
+                objetoBaseDeDatos.setPrecio_diario(resultSet.getDouble("precio_diario"));
+                objetoBaseDeDatos.setEstado(resultSet.getString("estado"));
+                objetoBaseDeDatos.setTipo_habitacion(resultSet.getString("tipo_habitacion"));
+                //Metemos el objeto vhabitacion en la lista
+                lista.add(objetoBaseDeDatos);
+            }
+        } catch (SQLException exception) {
+            System.out.println("Exception en metodo obtenerHabitacionMasCostosa " + exception.getMessage());
+        }
+
+        return lista.stream()
+                .max(Comparator.comparingDouble(vhabitacion::getPrecio_diario))
+                .orElse(null);
 
     }
 

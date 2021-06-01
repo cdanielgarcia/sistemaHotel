@@ -4,6 +4,7 @@ import Datos.vcliente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,8 +15,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class fcliente {
 
-    private Conexion mysql = new Conexion();
-    private Connection con = mysql.conectar();
+    private final Conexion mysql = new Conexion();
+    private final Connection con = mysql.conectar();
     private String sSQL = "";
     private String sSQL2 = "";
     public Integer totalregistros;
@@ -56,7 +57,7 @@ public class fcliente {
             }
             return modelo;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showInputDialog(null, e);
             return null;
         }
@@ -87,18 +88,14 @@ public class fcliente {
             int n = ps.executeUpdate();
 
             if (n != 0) {
-                int n2 = ps2.executeUpdate();
+                int result = ps2.executeUpdate();
 
-                if (n2 != 0) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return result != 0;
             } else {
                 return false;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showInputDialog(null, e);
             return false;
         }
@@ -133,16 +130,12 @@ public class fcliente {
             if (n != 0) {
                 int n2 = ps2.executeUpdate();
 
-                if (n2 != 0) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return n2 != 0;
             } else {
                 return false;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showInputDialog(null, e);
             return false;
         }
@@ -169,16 +162,12 @@ public class fcliente {
             if (n != 0) {
                 int n2 = ps2.executeUpdate();
 
-                if (n2 != 0) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return n2 != 0;
             } else {
                 return false;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showInputDialog(null, e);
             return false;
         }
