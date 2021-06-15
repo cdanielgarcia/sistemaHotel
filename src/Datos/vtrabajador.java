@@ -5,11 +5,11 @@ package Datos;
  * @author user
  */
 public class vtrabajador extends vpersona{
-    Double sueldo;
-    String acceso;
-    String login;
-    String password;
-    String estado;
+    private Double sueldo;
+    private String acceso;
+    private String login;
+    private String password;
+    private String estado;
 
     public vtrabajador() {
     }
