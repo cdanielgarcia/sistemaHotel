@@ -1,20 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Datos;
 
 /**
  *
  * @author user
  */
+<<<<<<< HEAD
 public class vtrabajador extends Persona{
     Double sueldo;
     String acceso;
     String login;
     String password;
     String estado;
+=======
+public class vtrabajador extends vpersona{
+    private Double sueldo;
+    private String acceso;
+    private String login;
+    private String password;
+    private String estado;
+>>>>>>> 7b205730ea33185fd79c4eea146db1434cd64fe4
 
     public vtrabajador() {
     }

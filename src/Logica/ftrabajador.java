@@ -1,6 +1,7 @@
 package Logica;
 
 import Datos.vcliente;
+import Datos.vtrabajador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,10 +14,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author user
  */
-public class fcliente {
-
-    private final Conexion mysql = new Conexion();
-    private final Connection con = mysql.conectar();
+public class ftrabajador {
+    
+    private Conexion mysql = new Conexion();
+    private Connection con = mysql.conectar();
     private String sSQL = "";
     private String sSQL2 = "";
     public Integer totalregistros;
@@ -24,13 +25,14 @@ public class fcliente {
     public DefaultTableModel mostrar(String buscar) {
         DefaultTableModel modelo;
         String[] titulos = {"Id", "Nombre", "Apaterno", "Amaterno", "Doc", "Numero Documento", "Direccion",
-            "Telefono", "Email", "Codigo"};
-        String[] registros = new String[10];
+            "Telefono", "Email", "Sueldo", "Acceso", "Login", "Clave", "Estado"};
+        String[] registros = new String[14];
         totalregistros = 0;
         modelo = new DefaultTableModel(null, titulos);
         sSQL = "select p.idpersona,p.nombre,p.apaterno,p.amaterno,p.tipo_documento,p.num_documento,"
-                + "p.direccion,p.telefono,p.email,c.codigo_cliente from persona p inner join cliente c "
-                + "on p.idpersona=c.idpersona where num_documento like '%"
+                + "p.direccion,p.telefono,p.email,t.sueldo,t.acceso,t.login,t.password,t.estado"
+                + " from persona p inner join trabajador t "
+                + "on p.idpersona=t.idpersona where num_documento like '%"
                 + buscar + "%' order by idpersona desc";
 
         try {
@@ -49,7 +51,11 @@ public class fcliente {
                 registros[6] = rs.getString("direccion");
                 registros[7] = rs.getString("telefono");
                 registros[8] = rs.getString("email");
-                registros[9] = rs.getString("codigo_cliente");
+                registros[9] = rs.getString("sueldo");
+                registros[10] = rs.getString("acceso");
+                registros[11] = rs.getString("login");
+                registros[12] = rs.getString("password");
+                registros[13] = rs.getString("estado");
 
                 totalregistros = totalregistros + 1;
                 modelo.addRow(registros);
@@ -63,11 +69,11 @@ public class fcliente {
         }
     }
 
-    public boolean insertar(vcliente datos) {
+    public boolean insertar(vtrabajador datos) {
         sSQL = "insert into persona (nombre,apaterno,amaterno,tipo_documento,num_documento,direccion,"
                 + "telefono,email) values (?,?,?,?,?,?,?,?)";
-        sSQL2 = "insert into cliente (idpersona,codigo_cliente)"
-                + "values ((select idpersona from persona order by idpersona desc limit 1),?)";
+        sSQL2 = "insert into trabajador (idpersona,sueldo,acceso,login,password,estado)"
+                + " values ((select idpersona from persona order by idpersona desc limit 1),?,?,?,?,?)";
 
         try {
 
@@ -83,30 +89,38 @@ public class fcliente {
             ps.setString(7, datos.getTelefono());
             ps.setString(8, datos.getEmail());
 
-            ps2.setString(1, datos.getCodigo_cliente());
-
+            ps2.setDouble(1, datos.getSueldo());
+            ps2.setString(2, datos.getAcceso());
+            ps2.setString(3, datos.getLogin());
+            ps2.setString(4, datos.getPassword());
+            ps2.setString(5, datos.getEstado());
+            
             int n = ps.executeUpdate();
 
             if (n != 0) {
-                int result = ps2.executeUpdate();
+                int n2 = ps2.executeUpdate();
 
-                return result != 0;
+                if (n2 != 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             JOptionPane.showInputDialog(null, e);
             return false;
         }
 
     }
 
-    public boolean editar(vcliente datos) {
+    public boolean editar(vtrabajador datos) {
 
         sSQL = "update persona set nombre=?,apaterno=?,amaterno=?,tipo_documento=?,num_documento=?,"+
                 "direccion=?,telefono=?,email=? where idpersona=?";
-        sSQL2 = "update cliente set codigo_cliente=? where idpersona=?";
+        sSQL2 = "update trabajador set sueldo=?,acceso=?,login=?,password=?,estado=? where idpersona=?";
         try {
 
             PreparedStatement ps = con.prepareStatement(sSQL);
@@ -122,29 +136,37 @@ public class fcliente {
             ps.setString(8, datos.getEmail());
             ps.setInt(9, datos.getIdpersona());
 
-            ps2.setString(1, datos.getCodigo_cliente());
-            ps2.setInt(2, datos.getIdpersona());
+            ps2.setDouble(1, datos.getSueldo());
+            ps2.setString(2, datos.getAcceso());
+            ps2.setString(3, datos.getLogin());
+            ps2.setString(4, datos.getPassword());
+            ps2.setString(5, datos.getEstado());
+            ps2.setInt(6, datos.getIdpersona());
 
             int n = ps.executeUpdate();
 
             if (n != 0) {
                 int n2 = ps2.executeUpdate();
 
-                return n2 != 0;
+                if (n2 != 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             JOptionPane.showInputDialog(null, e);
             return false;
         }
 
     }
 
-    public boolean eliminar(vcliente datos) {
+    public boolean eliminar(vtrabajador datos) {
 
-        sSQL = "delete from cliente where idpersona=?";
+        sSQL = "delete from trabajador where idpersona=?";
         sSQL2 = "delete from persona where idpersona=?";
 
         try {
@@ -162,7 +184,11 @@ public class fcliente {
             if (n != 0) {
                 int n2 = ps2.executeUpdate();
 
-                return n2 != 0;
+                if (n2 != 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
@@ -172,5 +198,44 @@ public class fcliente {
             return false;
         }
     }
+    
+    public DefaultTableModel login(String login, String password) {
+        DefaultTableModel modelo;
+        String[] titulos = {"Id", "Nombre", "Apaterno", "Amaterno", "Acceso", "Login", "Clave", "Estado"};
+        String[] registros = new String[8];
+        totalregistros = 0;
+        modelo = new DefaultTableModel(null, titulos);
+        sSQL = "select p.idpersona,p.nombre,p.apaterno,p.amaterno,t.acceso,t.login,t.password,t.estado"
+                + " from persona p inner join trabajador t "
+                + "on p.idpersona=t.idpersona where t.login='"
+                + login + "' and t.password='" + password + "' and t.estado='A'";
 
+        try {
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sSQL);
+
+            while (rs.next()) {
+
+                registros[0] = rs.getString("idpersona");
+                registros[1] = rs.getString("nombre");
+                registros[2] = rs.getString("apaterno");
+                registros[3] = rs.getString("amaterno");
+                registros[4] = rs.getString("acceso");
+                registros[5] = rs.getString("login");
+                registros[6] = rs.getString("password");
+                registros[7] = rs.getString("estado");
+
+                totalregistros = totalregistros + 1;
+                modelo.addRow(registros);
+
+            }
+            return modelo;
+
+        } catch (Exception e) {
+            JOptionPane.showInputDialog(null, e);
+            return null;
+        }
+    }
+    
 }
