@@ -9,8 +9,8 @@ package Datos;
  *
  * @author user
  */
-public class vpersona {
-    private int idpersona;
+public class Persona {
+    private int id_persona;
     private String nombre;
     private String apaterno;
     private String amaterno;
@@ -20,11 +20,11 @@ public class vpersona {
     private String telefono;
     private String email;
 
-    public vpersona() {
+    public Persona() {
     }
 
-    public vpersona(int idpersona, String nombre, String apaterno, String amaterno, String tipo_documento, String num_documento, String direccion, String telefono, String email) {
-        this.idpersona = idpersona;
+    public Persona(int idpersona, String nombre, String apaterno, String amaterno, String tipo_documento, String num_documento, String direccion, String telefono, String email) {
+        this.id_persona = idpersona;
         this.nombre = nombre;
         this.apaterno = apaterno;
         this.amaterno = amaterno;
@@ -36,11 +36,11 @@ public class vpersona {
     }
 
     public int getIdpersona() {
-        return idpersona;
+        return id_persona;
     }
 
     public void setIdpersona(int idpersona) {
-        this.idpersona = idpersona;
+        this.id_persona = idpersona;
     }
 
     public String getNombre() {
@@ -106,8 +106,11 @@ public class vpersona {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Persona{" + "id_persona=" + id_persona + ", nombre=" + nombre + ", apaterno=" + apaterno + ", amaterno=" + amaterno + ", tipo_documento=" + tipo_documento + ", num_documento=" + num_documento + ", direccion=" + direccion + ", telefono=" + telefono + ", email=" + email + '}';
+    }
     
     
 }

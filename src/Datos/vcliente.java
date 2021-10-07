@@ -9,7 +9,7 @@ package Datos;
  *
  * @author user
  */
-public class vcliente extends vpersona{
+public class vcliente extends Persona{
     
     private String codigo_cliente;
 

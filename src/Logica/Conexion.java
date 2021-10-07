@@ -1,43 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Logica;
 
-import com.mysql.cj.jdbc.Driver;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
+import java.sql.Statement;
 
 /**
  *
  * @author user
  */
 public class Conexion {
-    public String db = "basereserva";
-//    public String url =  "jdbc:mysql//127.0.0.1/" +db;
-    private String url = "jdbc:mysql://127.0.0.1/"+db;
 
-    public String user = "root";
-    public String password = "1234";
+    static Statement createStatement() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     public Conexion() {
     }
-    
-    public Connection conectar(){
-        Connection link = null;
-        
+
+    public Connection conectar() {
+        Connection conexion = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            link = DriverManager.getConnection(this.url, this.user, this.password);
-            
-        } catch (ClassNotFoundException | SQLException e) {
-            JOptionPane.showConfirmDialog(null, e);
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            conexion = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE", "SYSTEM", "1234");
+            if (conexion == null) {
+                System.out.println("No hay conexion");
+            } else {
+                return conexion;
+            }
+        } catch (SQLException e) {
+            System.out.println("conexion error: " + e.getMessage());
         }
-        
-        return link;
+        return conexion;
     }
-    
+
 }

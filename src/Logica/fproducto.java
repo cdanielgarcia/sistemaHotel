@@ -5,7 +5,7 @@
  */
 package Logica;
 
-import Datos.vhabitacion;
+import Datos.Habitacion;
 import Datos.vproducto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

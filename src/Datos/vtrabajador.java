@@ -9,7 +9,7 @@ package Datos;
  *
  * @author user
  */
-public class vtrabajador extends vpersona{
+public class vtrabajador extends Persona{
     Double sueldo;
     String acceso;
     String login;

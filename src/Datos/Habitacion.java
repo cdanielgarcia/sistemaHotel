@@ -9,7 +9,7 @@ package Datos;
  *
  * @author user
  */
-public class vhabitacion {
+public class Habitacion {
     private int idhabitacion;
     private String numero;
     private String piso;
@@ -19,7 +19,7 @@ public class vhabitacion {
     private String estado;
     private String tipo_habitacion;
 
-    public vhabitacion(int idhabitacion, String numero, String piso, String descripcion, String caracteristicas, double precio_diario, String estado, String tipo_habitacion) {
+    public Habitacion(int idhabitacion, String numero, String piso, String descripcion, String caracteristicas, double precio_diario, String estado, String tipo_habitacion) {
         this.idhabitacion = idhabitacion;
         this.numero = numero;
         this.piso = piso;
@@ -30,7 +30,7 @@ public class vhabitacion {
         this.tipo_habitacion = tipo_habitacion;
     }
 
-    public vhabitacion() {
+    public Habitacion() {
     }
 
     public int getIdhabitacion() {

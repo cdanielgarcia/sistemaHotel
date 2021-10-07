@@ -5,7 +5,7 @@
  */
 package Logica;
 
-import Datos.vhabitacion;
+import Datos.Habitacion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,7 +62,7 @@ public class fhabitacion {
         }
     }
 
-    public boolean insertar(vhabitacion datos) {
+    public boolean insertar(Habitacion datos) {
         sSQL = "insert into habitacion (numero,piso,descripcion,caracteristicas,precio_diario,estado,tipo_habitacion)"
                 + "values (?,?,?,?,?,?,?)";
 
@@ -92,7 +92,7 @@ public class fhabitacion {
 
     }
 
-    public boolean editar(vhabitacion datos) {
+    public boolean editar(Habitacion datos) {
 
         sSQL = "update habitacion set numero=?, piso=?, descripcion=?, caracteristicas=?, precio_diario=?, estado=?, tipo_habitacion=?"
                 + "where idhabitacion=?";
@@ -122,7 +122,7 @@ public class fhabitacion {
 
     }
 
-    public boolean eliminar(vhabitacion datos) {
+    public boolean eliminar(Habitacion datos) {
 
         sSQL = "delete from habitacion where idhabitacion=?";
 
